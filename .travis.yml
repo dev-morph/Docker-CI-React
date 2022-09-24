@@ -1,0 +1,18 @@
+# 관리자 권한 부여
+sudo: required
+
+# 사용 언어 설정 e.g. node, python, etc.
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - echo "start creating an image..."
+  - docker build -t docker_ci_test -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true docker_ci_test npm run test -- --coverage
+
+after_scucess:
+  - echo "test success!"
